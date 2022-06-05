@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Wishlist Page
+{% endblock %}
+
+{% block content %}
+<!--* GAMES ON WISHLIST -->
+<div class="row" style="margin-top: 20px; margin-left: 20px; margin-right: 20px;">
+    <div class="col-12 text-center">
+        <h1>Games on your Wishlist</h1>
+        <p>Click to remove game from your Wishlist</p>
+        <br>
+        <div class="row">
+            {% for owned_game in owned_games %}
+            {% include "includes/owned_games_modals.html" %}
+            <div class="col-md-3">
+                <div class=" text-center">
+                    <img src="{{ owned_game.img }}" class="figure-img img-fluid rounded" alt="{{ owned_game.title }}">
+                </div>
+                <div style="margin-bottom: 5px" class="card text-center text-light bg-dark">
+                    <div class="card-body">
+                        <p class="card-title">{{ owned_game.title }}</p>
+                        <button type="button" class="btn btn-danger btn-sm" style="margin-bottom: 5px; --bs-btn-font-size: .75rem;"
+                            data-bs-toggle="modal" data-bs-target="#Modal-RemoveConfirm-{{ owned_game.id }}">
+                            Remove from Wishlist
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

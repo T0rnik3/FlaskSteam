@@ -1,0 +1,38 @@
+<style>
+    .modal-content {
+        background-color: #212121
+    }
+</style>
+
+<!-- Remove from Wishlist -->
+<div class="modal fade" id="Modal-RemoveConfirm-{{ owned_game.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">
+                    {{ owned_game.title }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {{ remove_form.hidden_tag() }}
+                    <br>
+                    <h4 class="text-center">
+                        Are you sure you want to remove {{ owned_game.title }} from your Wishlist?
+                    </h4>
+                    <br>
+                    <h6 class="text-center">
+                        By clicking Remove from your Wishlist, you will remove this game from your Wishlist
+                    </h6>
+                    <br>
+                    <input id="remove_game" name="remove_game" type="hidden" value="{{ owned_game.title }}">
+                    {{ remove_form.submit(class="btn btn-danger btn-block d-grid gap-2 col-6 mx-auto") }}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

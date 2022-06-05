@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Account Page
+{% endblock %}
+
+{% block content %}
+<br>
+<div class="container">
+    <div class="row gutters">
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+            <div class="card h-20 bg-dark">
+                <div class="card-body">
+                    <div class="account-settings">
+                        <div class="about">
+                            <h5 class="mb-2 text-primary">About User</h5>
+                            <p>You are {{ current_user.username }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+            <div class="card h-100 bg-dark">
+                <div class="card-body">
+                    <div class="row gutters">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h6 class="mb-3 text-primary">Personal Details</h6>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" id="userName" placeholder="Enter new Username">
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row gutters">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h6 class="mb-3 text-primary">Change Password</h6>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="form-group">
+                                <label for="OldPassword">Old Password</label>
+                                <input type="name" class="form-control" id="OldPassword" placeholder="Enter Old Password">
+                            </div>
+                        </div>
+                        <br><br><br>
+                        <div class="row gutters">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="NewPassword">New Password</label>
+                                    <input type="text" class="form-control" id="NewPassword" placeholder="Enter New Password">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="ConfirmNew">Confirm</label>
+                                    <input type="text" class="form-control" id="ConfirmNew" placeholder="Confirm New Password">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row gutters">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="text-right">
+                                <button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
+                                <button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Register Page
+{% endblock %}
+
+
+{% block content %}
+
+<body class="text-center">
+    <div class="container" style="width: 30%;">
+        <form method="post" class="form-register" style="color: white;">
+            <!--! CROSS SITE REQUEST FORGERY (CSRF)   -->
+            {{ form.hidden_tag() }}
+            <br>
+            <img class="mb-4" src="https://btu.edu.ge/wp-content/uploads/2021/07/logo_w-300x193.png" alt="">
+            <h1 class="h3 mb-3 font-weight-normal">
+                Please Create your Account
+            </h1>
+            <br>
+            {{ form.username.label()}}
+            {{ form.username(class="form-control", placeholder="User Name")}}
+
+            {{ form.password1.label()}}
+            {{ form.password1(class="form-control", placeholder="Password")}}
+
+            {{ form.password2.label()}}
+            {{ form.password2(class="form-control", placeholder="Confirm Password")}}
+
+            <br>
+            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+            <br><br>
+            <div class="checkbox mb-3">
+                <h6>Already have an account?</h6>
+                <a class="btn btn-sm btn-success" href="{{ url_for('login') }}">Login</a>
+            </div>
+
+        </form>
+    </div>
+</body>
+
+{% endblock %}

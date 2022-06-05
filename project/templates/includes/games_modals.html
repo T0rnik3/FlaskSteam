@@ -1,0 +1,61 @@
+<style>
+    .modal-content {
+        background-color: #212121
+    }
+</style>
+
+<!-- More Info -->
+<div class="modal fade" id="Modal-MoreInfo-{{ game.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">
+                    {{ game.title }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                OLD PRICE: {{ game.old_price }} <br>
+                DISCOUNT: {{ game.discount }}% <br>
+                NEW PRICE: {{ game.price }} <br>
+                PLAFTORMS: {{ game.platforms }} <br>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add to Wishlist -->
+<div class="modal fade" id="Modal-WishlistConfirm-{{ game.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">
+                    {{ game.title }}
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    {{ add_form.hidden_tag() }}
+                    <br>
+                    <h4 class="text-center">
+                        Are you sure you want to add {{ game.title }} to your Wishlist?
+                    </h4>
+                    <br>
+                    <h6 class="text-center">
+                        By clicking Add to your Wishlist, you will add this game to your Wishlist
+                    </h6>
+                    <br>
+                    <input id="wishlist_game" name="wishlist_game" type="hidden" value="{{ game.title }}">
+                    {{ add_form.submit(class="btn btn-success btn-block d-grid gap-2 col-6 mx-auto") }}
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

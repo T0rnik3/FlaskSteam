@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+Games Page
+{% endblock %}
+
+{% block content %}
+<div class="row" style="margin-top: 20px; margin-left: 1px; margin-right: 10px;">
+    <div class="col-12">
+        <h2>Steam's Top Selling Games</h2>
+        <p>Click on one of the games to add to Wishlist</p>
+        <table class="table table-responsive align-middle table-dark">
+            <thead>
+                <tr>
+                    <th scope="col-md-auto">#</th>
+                    <th scope="col">Image</th>
+                    <th class="text-center" scope="col">Title</th>
+                    <th class="text-center" scope="col">Release Date</th>
+                    <th class="text-center" scope="col">Platforms</th>
+                    <th class="text-center" scope="col">Discount</th>
+                    <th class="text-center" scope="col">Price</th>
+                    <th class="text-center" scope="col">Ratings</th>
+                    <th class="text-center" scope="col">Reviews</th>
+                    <th class="text-center" scope="col">Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for game in games.items %}
+                {% include 'includes/games_modals.html' %}
+                <tr>
+                    <td scope="row">{{ game.id }}</td>
+                    <td>
+                        <img src="{{ game.img }}" class="rounded float-start" alt="{{ game.title }}">
+                    </td>
+                    <td>{{ game.title }}</td>
+                    <td class="text-center">{{ game.release_date }}</td>
+                    <td class="text-center">{{ game.platforms }}</td>
+                    {% if game.discount > 0 %}
+                    <td class="text-info p-3 text-center">{{ game.discount }}%</td>
+                    {% else %}
+                    <td class="text-center">{{ game.discount }}%</td>
+                    {% endif %}
+                    {% if game.price.upper() == 'Free to Play'.upper() %}
+                    <td class="text-center">{{ game.price }}</td>
+                    {% else %}
+                    <td class="text-center">{{ game.price }}$</td>
+                    {% endif %}
+                    <!-- Rating Validation RED = <50% Yellow <65% Green other -->
+                    {% if game.positive_ratings == "None" %}
+                    <td class="text-light text-center">{{ game.positive_ratings }}</td>
+                    {% elif game.positive_ratings <= 50 %} <td class="text-danger p-3 text-center">{{game.positive_ratings}}%</td>
+                        {% elif game.positive_ratings <= 65 %} <td class="text-warning p-3 text-center">{{game.positive_ratings }}%</td>
+                            {% else %}
+                            <td class="text-success p-3 text-center">{{ game.positive_ratings }}%</td>
+                            {% endif %}
+                            <!-- Reviews Validation RED = <10000 Yellow <100000 Green >100000 -->
+                            {% if game.reviews == "None" %}
+                            <td class="text-light text-center">{{ game.reviews }}</td>
+                            {% elif game.reviews > 10**5 %}
+                            <td class="text-success text-center">{{ game.reviews | numberFormat }}</td>
+                            {% elif game.reviews > 10**4 %}
+                            <td class="text-warning text-center">{{ game.reviews | numberFormat }}</td>
+                            {% else %}
+                            <td class="text-danger text-center">{{ game.reviews | numberFormat}}</td>
+                            {% endif %}
+                            <td>
+                                <button class="btn btn-outline btn-info" data-bs-toggle="modal" data-bs-target="#Modal-MoreInfo-{{ game.id }}">More
+                                    Info</button>
+                                <button class="btn btn-outline btn-success" data-bs-toggle="modal"
+                                    data-bs-target="#Modal-WishlistConfirm-{{ game.id }}">Add
+                                    to Wishlist</button>
+                            </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Pagination Links-->
+<div class="pagination justify-content-center pagination-mm">
+    <a href="{{ url_for('games', page=games.prev_num) }}" class="page-link btn btn-outline-light 
+       {% if games.page == 1 %}disabled{% endif %}">
+        &laquo;
+    </a>
+
+    <!-- Loop through the number of pages to display a link for each-->
+    {% for page_num in games.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+    {% if page_num %}
+
+    <!-- Check for the active page and set the link to "Active"-->
+    {% if games.page == page_num %}
+    <a href="{{ url_for('games', page=page_num) }}" class="page-link active btn btn-light">
+        {{ page_num }}
+    </a>
+    {% else %}
+    <a href="{{ url_for('games', page=page_num) }}" class="page-link btn btn-outline-light">
+        {{ page_num }}
+    </a>
+    {% endif %}
+    {% else %}
+    ...
+    {% endif %}
+    {% endfor %}
+    <a href="{{ url_for('games', page=games.next_num) }}" class="page-link btn btn-outline-light 
+       {% if games.page == games.pages %}disabled{% endif %}">
+        &raquo;
+    </a>
+</div>
+<p class="pagination justify-content-center pagination-sm">
+    Page {{ games.page }} of {{ games.pages }}
+</p>
+
+{% endblock %}
