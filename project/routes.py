@@ -2,7 +2,9 @@ from flask import flash, redirect, render_template, request, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 
 from project import app, db
-from project.forms import AddGameForm, LoginForm, RegisterForm, RemoveGameForm
+from project.forms import (AddGameForm, LoginForm, RegisterForm,
+                           RemoveGameForm, UpdateAccountForm,
+                           UpdatePasswordForm)
 from project.models import Game, User
 
 
@@ -62,12 +64,6 @@ def wishlist():
     return render_template('wishlist.html', remove_form=remove_form, owned_games=owned_games)
 
 
-@app.route('/user')
-@login_required
-def account():
-    return render_template('account.html')
-
-
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -104,6 +100,43 @@ def login():
             flash('Username and password are not match! Please try again', category='danger')
 
     return render_template('login.html', form=form)
+
+
+@app.route('/user', methods=['POST', 'GET'])
+@login_required
+def account():
+    form = UpdateAccountForm()
+    if request.method == 'GET':
+        form.username.data = current_user.username
+
+    elif request.method == 'POST':
+        if form.validate_on_submit():
+            current_user.username = form.username.data
+            db.session.commit()
+            flash('Your Account has been updated!', 'success')
+            return redirect(url_for('account'))
+
+        if form.errors != {}: #If there are not errors from the validations
+            for err_msg in form.errors.values():
+                flash(f'There was an error with creating a user: {err_msg}', category='danger')
+
+    return render_template('account.html', form=form)
+
+
+@app.route('/user/password', methods=['POST', 'GET'])
+@login_required
+def password_change():
+    pass_form = UpdatePasswordForm()
+    if request.method == 'POST':
+        if pass_form.validate_on_submit() and current_user.check_password_correction(pass_form.old_password.data):
+            current_user.password = pass_form.password1.data
+            db.session.commit()
+            flash('Your Password has been updated', 'success')
+            return redirect(url_for('account'))
+        else:
+            flash('There was an Error!', category='danger')
+
+    return render_template('password.html', pass_form=pass_form)
 
 
 @app.route('/logout')
